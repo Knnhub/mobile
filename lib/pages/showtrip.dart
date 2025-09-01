@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
-import 'package:flutter_application_1/config/config.dart';
 import 'package:flutter_application_1/config/internal_config.dart';
 import 'package:flutter_application_1/model/respone/trip_get_res.dart';
 import 'package:http/http.dart' as http;
@@ -15,12 +13,12 @@ class Showtrippage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Showtrippage> {
-  List<TripGetRespose> tripGetResponses = [];
+  List<TripsGetResponse> _allTrips = [];
+  List<TripsGetResponse> _filteredTrips = [];
   late Future<void> loadData;
   @override
   void initState() {
     super.initState();
-    // getTrips();
     loadData = getTrips();
   }
 
@@ -52,33 +50,36 @@ class _MyWidgetState extends State<Showtrippage> {
                       spacing: 8,
                       children: [
                         FilledButton(
-                          onPressed: getTrips,
+                          onPressed: () {
+                            setState(() {
+                              _filteredTrips = _allTrips;
+                            });
+                          },
                           child: Text('ทั้งหมด'),
                         ),
-                        FilledButton(onPressed: () {}, child: Text('เอเชีย')),
                         FilledButton(
                           onPressed: () {
-                            List<TripGetRespose> euroTrips = [];
-                            for (var trip in tripGetResponses) {
-                              if (trip.destinationZone ==
-                                  DestinationZone.EMPTY) {
-                                euroTrips.add(trip);
-                              }
-                            }
-                            setState(() {
-                              tripGetResponses = euroTrips;
-                            });
+                            _filterTrips(DestinationZone.SOUTHEAST_ASIA);
+                          },
+                          child: Text('เอเชียตะวันออกเฉียงใต้'),
+                        ),
+                        FilledButton(
+                          onPressed: () {
+                            _filterTrips(DestinationZone.EUROPE);
                           },
                           child: Text('ยุโรป'),
                         ),
-                        FilledButton(onPressed: () {}, child: Text('อาเชียน')),
                         FilledButton(
-                          onPressed: () {},
-                          child: Text('อเมริกาเหนือ'),
+                          onPressed: () {
+                            _filterTrips(DestinationZone.THAILAND);
+                          },
+                          child: Text('ประเทศไทย'),
                         ),
                         FilledButton(
-                          onPressed: () {},
-                          child: Text('อเมริกาใต้'),
+                          onPressed: () {
+                            _filterTrips(DestinationZone.ASIA);
+                          },
+                          child: Text('เอเชีย'),
                         ),
                       ],
                     ),
@@ -86,9 +87,9 @@ class _MyWidgetState extends State<Showtrippage> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: tripGetResponses.length,
+                    itemCount: _filteredTrips.length,
                     itemBuilder: (context, index) {
-                      final trip = tripGetResponses[index];
+                      final trip = _filteredTrips[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
@@ -108,7 +109,7 @@ class _MyWidgetState extends State<Showtrippage> {
                                   top: Radius.circular(12),
                                 ),
                                 child: Image.network(
-                                  trip.coverimage ?? '',
+                                  trip.coverimage,
                                   width: double.infinity,
                                   height: 180,
                                   fit: BoxFit.cover,
@@ -130,7 +131,7 @@ class _MyWidgetState extends State<Showtrippage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      trip.name ?? 'ไม่ระบุชื่อ',
+                                      trip.name,
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -138,17 +139,16 @@ class _MyWidgetState extends State<Showtrippage> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      trip.country ?? '',
+                                      trip.country,
                                       style: const TextStyle(
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    const SizedBox(height: 😎,
+                                    const SizedBox(height: 8),
                                     Text(
-                                      trip.detail != null &&
-                                              trip.detail!.length > 100
-                                          ? '${trip.detail!.substring(0, 100)}...'
-                                          : (trip.detail ?? ''),
+                                      trip.detail.length > 100
+                                          ? '${trip.detail.substring(0, 100)}...'
+                                          : trip.detail,
                                       style: const TextStyle(fontSize: 14),
                                     ),
                                     const SizedBox(height: 12),
@@ -198,12 +198,19 @@ class _MyWidgetState extends State<Showtrippage> {
 
   Future<void> getTrips() async {
     var res = await http.get(Uri.parse('$API_ENDPOINT/trips'));
-    tripGetResponses = tripGetResposeFromJson(res.body);
+    List<TripsGetResponse> trips = tripsGetResponseFromJson(res.body);
     setState(() {
-      tripGetResponses = tripGetResposeFromJson(res.body);
+      _allTrips = trips;
+      _filteredTrips = _allTrips;
     });
-    log(tripGetResponses.length.toString());
+    log(_allTrips.length.toString());
   }
 
-  Future<void> getTripsEURO() async {}
+  void _filterTrips(DestinationZone zone) {
+    setState(() {
+      _filteredTrips = _allTrips
+          .where((trip) => trip.destinationZone == zone)
+          .toList();
+    });
+  }
 }

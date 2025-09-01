@@ -59,13 +59,13 @@ class TripsGetResponse {
   };
 }
 
-enum DestinationZone { DESTINATION_ZONE, EMPTY, FLUFFY, PURPLE }
+enum DestinationZone { SOUTHEAST_ASIA, EUROPE, THAILAND, ASIA }
 
 final destinationZoneValues = EnumValues({
-  "เอเชียตะวันออกเฉียงใต้": DestinationZone.DESTINATION_ZONE,
-  "ยุโรป": DestinationZone.EMPTY,
-  "ประเทศไทย": DestinationZone.FLUFFY,
-  "เอเชีย": DestinationZone.PURPLE,
+  "เอเชียตะวันออกเฉียงใต้": DestinationZone.SOUTHEAST_ASIA,
+  "ยุโรป": DestinationZone.EUROPE,
+  "ประเทศไทย": DestinationZone.THAILAND,
+  "เอเชีย": DestinationZone.ASIA,
 });
 
 class EnumValues<T> {

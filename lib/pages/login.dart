@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
           log(customerLoginPostResponse.customer.email);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ShowTripPage()),
+            MaterialPageRoute(builder: (context) => const Showtrippage()),
           );
         })
         .catchError((error) {
