@@ -3,6 +3,7 @@
 //     final tripidxGetResponse = tripidxGetResponseFromJson(jsonString);
 
 import 'dart:convert';
+import 'trip_get_res.dart';
 
 TripidxGetResponse tripidxGetResponseFromJson(String str) =>
     TripidxGetResponse.fromJson(json.decode(str));

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/config/config.dart';
+import 'package:flutter_application_1/model/respone/trip_idx_get_res.dart';
 import 'package:http/http.dart' as http;
 
 class TripPage extends StatefulWidget {
@@ -15,7 +16,8 @@ class TripPage extends StatefulWidget {
 class _TripPageState extends State<TripPage> {
   String url = '';
   // Create late variables
-  late TripidxGetResponse tripIdxGetResponse;
+
+  late TripidxGetResponse tripidxGetResponse;
 
   late Future<void> loadData;
 
@@ -39,7 +41,7 @@ class _TripPageState extends State<TripPage> {
             return const Center(child: CircularProgressIndicator());
           }
           // Load Done
-          return Text(tripIdxGetResponse.name);
+          return Text(tripidxGetResponse.name);
         },
       ),
     );
@@ -51,6 +53,6 @@ class _TripPageState extends State<TripPage> {
     url = config['apiEndpoint'];
     var res = await http.get(Uri.parse('$url/trips/${widget.idx}'));
     log(res.body);
-    tripIdxGetResponse = tripIdxGetResponseFromJson(res.body);
+    tripidxGetResponse = tripidxGetResponseFromJson(res.body);
   }
 }
