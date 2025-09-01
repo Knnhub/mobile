@@ -5,4 +5,4 @@ Future<String> getApiEndpoint() async {
   return config['apiEndpoint'] as String;
 }
 
-String API_ENDPOINT = "http://192.168.82.175:3000";
+String API_ENDPOINT = "http://10.34.10.119:3000";

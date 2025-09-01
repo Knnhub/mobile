@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/config/internal_config.dart';
 import 'package:flutter_application_1/model/respone/trip_get_res.dart';
+import 'package:flutter_application_1/pages/trip.dart';
 import 'package:http/http.dart' as http;
 
 class Showtrippage extends StatefulWidget {
@@ -171,8 +172,19 @@ class _MyWidgetState extends State<Showtrippage> {
                                           ),
                                         ),
                                         FilledButton(
-                                          onPressed: () {},
-                                          child: Text('รายละเอียดเพิม่เติม'),
+                                          onPressed: () {
+                                            gotoTrip(trip.idx);
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (context) =>
+                                            //         TripPage(idx: trip.idx),
+                                            //   ),
+                                            // );
+                                          },
+                                          child: const Text(
+                                            'รายละเอียดเพิ่มเติม',
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -212,5 +224,12 @@ class _MyWidgetState extends State<Showtrippage> {
           .where((trip) => trip.destinationZone == zone)
           .toList();
     });
+  }
+
+  void gotoTrip(int idx) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TripPage(idx: idx)),
+    );
   }
 }
