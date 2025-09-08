@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
   void register() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const RegisterPage()),
+      MaterialPageRoute(builder: (context) => Registerpage()),
     );
   }
 
@@ -149,7 +149,10 @@ class _LoginPageState extends State<LoginPage> {
           log(customerLoginPostResponse.customer.email);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Showtrippage()),
+            MaterialPageRoute(
+              builder: (context) =>
+                  Showtrippage(cid: customerLoginPostResponse.customer.idx),
+            ),
           );
         })
         .catchError((error) {

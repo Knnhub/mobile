@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/config/internal_config.dart';
 import 'package:flutter_application_1/model/respone/trip_get_res.dart';
+import 'package:flutter_application_1/pages/profile.dart';
 import 'package:flutter_application_1/pages/trip.dart';
 import 'package:http/http.dart' as http;
 
 class Showtrippage extends StatefulWidget {
-  const Showtrippage({super.key});
+  int cid = 0;
+  Showtrippage({super.key, required this.cid});
 
   @override
   State<Showtrippage> createState() => _MyWidgetState();
@@ -28,7 +30,30 @@ class _MyWidgetState extends State<Showtrippage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('รายการทริป')),
+      appBar: AppBar(
+        title: Text('รายการทริป'),
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) {
+              log(value);
+              if (value == 'logout') {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              } else if (value == 'profile') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PorfilePage(cid: widget.cid),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(child: Text('ข้อมูลส่วนตัว'), value: 'profile'),
+              PopupMenuItem(child: Text('ออกจากระบบ'), value: 'logout'),
+            ],
+          ),
+        ],
+      ),
       body: FutureBuilder(
         future: loadData,
         builder: (context, snapshot) {

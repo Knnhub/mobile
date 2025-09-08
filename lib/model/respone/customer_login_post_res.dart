@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final customerLoginPostResponse = customerLoginPostResponseFromJson(jsonString);
+
 import 'dart:convert';
 
 CustomerLoginPostResponse customerLoginPostResponseFromJson(String str) =>

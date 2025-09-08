@@ -1,23 +1,23 @@
 // To parse this JSON data, do
 //
-//     final customerRegisterPostResponse = customerRegisterPostResponseFromJson(jsonString);
+//     final customerRegisterPostRequest = customerRegisterPostRequestFromJson(jsonString);
 
 import 'dart:convert';
 
-CustomerRegisterPostResponse customerRegisterPostResponseFromJson(String str) =>
-    CustomerRegisterPostResponse.fromJson(json.decode(str));
+CustomerRegisterPostRequest customerRegisterPostRequestFromJson(String str) =>
+    CustomerRegisterPostRequest.fromJson(json.decode(str));
 
-String customerRegisterPostResponseToJson(CustomerRegisterPostResponse data) =>
+String customerRegisterPostRequestToJson(CustomerRegisterPostRequest data) =>
     json.encode(data.toJson());
 
-class CustomerRegisterPostResponse {
+class CustomerRegisterPostRequest {
   String fullname;
   String phone;
   String email;
   String image;
   String password;
 
-  CustomerRegisterPostResponse({
+  CustomerRegisterPostRequest({
     required this.fullname,
     required this.phone,
     required this.email,
@@ -25,8 +25,8 @@ class CustomerRegisterPostResponse {
     required this.password,
   });
 
-  factory CustomerRegisterPostResponse.fromJson(Map<String, dynamic> json) =>
-      CustomerRegisterPostResponse(
+  factory CustomerRegisterPostRequest.fromJson(Map<String, dynamic> json) =>
+      CustomerRegisterPostRequest(
         fullname: json["fullname"],
         phone: json["phone"],
         email: json["email"],
