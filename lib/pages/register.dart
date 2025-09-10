@@ -161,6 +161,7 @@ class _MyWidgetState extends State<Registerpage> {
     String fullName = fullname.text;
     String phoneNumber = phone.text;
     String emailAddress = email.text;
+
     String userPassword = password.text;
     String confirmPassword = comfirempassword.text;
 
